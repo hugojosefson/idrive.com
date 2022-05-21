@@ -1,0 +1,14 @@
+# @IDrive Inc
+# Created By : Sabin Cheruvattil
+
+[Unit]
+Description=Regular background program processing daemon
+After=local-fs.target multi-user.target
+
+[Service]
+ExecStart=__LAUNCHPATH__
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
