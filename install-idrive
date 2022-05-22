@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail; IFS=$'\t\n'
+
+export DEBIAN_FRONTEND=noninteractive
+apt update && apt install -y apt-utils && apt full-upgrade --purge --auto-remove -y
+apt install -y busybox curl
+apt install -y bash less vim perl curl wget
+apt install -y build-essential sqlite3 perl-doc libdbi-perl libdbd-sqlite3-perl
+apt install -y libterm-readline-gnu-perl
+
+mkdir -p /usr/local/bin
+cd /opt/idrive
+busybox unzip -o -d /opt/idrive <(curl -sfL https://www.idrivedownloads.com/downloads/linux/download-for-linux/LinuxScripts/IDriveForLinux.zip)
+chmod +x IDriveForLinux/scripts/*.pl
+mv IDriveForLinux/scripts/* .
+rmdir IDriveForLinux/scripts
+rmdir IDriveForLinux
+
+mkdir -p /source
+mkdir -p /restore
+printf "\n-----------------------------------------\nNow, run:\n\n    account_setting.pl --auto-setup\n\n-----------------------------------------\n"
