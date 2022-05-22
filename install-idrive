@@ -1,21 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail; IFS=$'\t\n'
 
+download_url="https://www.idrivedownloads.com/downloads/linux/download-for-linux/LinuxScripts/IDriveForLinux.zip"
+download_dir="$(mktemp -d)"
+install_dir="/usr/local/bin"
+
 export DEBIAN_FRONTEND=noninteractive
-apt update && apt install -y apt-utils && apt full-upgrade --purge --auto-remove -y
-apt install -y busybox curl
-apt install -y bash less vim perl curl wget
-apt install -y build-essential sqlite3 perl-doc libdbi-perl libdbd-sqlite3-perl
-apt install -y libterm-readline-gnu-perl
+apt-get update && apt-get install -y apt-utils && apt-get full-upgrade --purge --auto-remove -y
+apt-get install -y busybox curl
+apt-get install -y bash less vim byobu perl curl wget
+byobu-enable
+apt-get install -y build-essential sqlite3 perl-doc libdbi-perl libdbd-sqlite3-perl
+apt-get install -y libterm-readline-gnu-perl
 
-mkdir -p /usr/local/bin
-cd /opt/idrive
-busybox unzip -o -d /opt/idrive <(curl -sfL https://www.idrivedownloads.com/downloads/linux/download-for-linux/LinuxScripts/IDriveForLinux.zip)
-chmod +x IDriveForLinux/scripts/*.pl
-mv IDriveForLinux/scripts/* .
-rmdir IDriveForLinux/scripts
-rmdir IDriveForLinux
+mkdir -p "${download_dir}"
+mkdir -p "${install_dir}"
+busybox unzip -o -d "${download_dir}" <(curl -sfL "${download_url}")
+chmod +x "${download_dir}/IDriveForLinux/scripts"/*.pl
+mv       "${download_dir}/IDriveForLinux/scripts"/* "${install_dir}"/
+rm -rf   "${download_dir}/IDriveForLinux"
 
-mkdir -p /source
-mkdir -p /restore
-printf "\n-----------------------------------------\nNow, run:\n\n    account_setting.pl --auto-setup\n\n-----------------------------------------\n"
+apt-get purge -y busybox
+apt-get install -y unzip
+
+mkdir -p "/sync-to-offsite"
+echo "
+-----------------------------------------
+Now, run:
+
+    account_setting.pl --auto-setup
+
+-----------------------------------------
+"
