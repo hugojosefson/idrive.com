@@ -8,7 +8,7 @@ You will most likely run this inside some kind of container.
 
 It also sets up an empty directory `/sync-to-offsite` inside the container where
 you run it. You may want to mount a directory/volume there in readonly mode, and
-have configure IDrive to back it up.
+configure IDrive to back it up.
 
 ## Install
 
@@ -35,7 +35,7 @@ The script expects you to run it as `root`.
 ./install-idrive
 ```
 
-Then follow the instruction given on how to proceed.
+Then follow the instruction given at the end, on how to proceed.
 
 ## Quick testing
 
