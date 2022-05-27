@@ -32,12 +32,24 @@ Then follow the instruction given on how to proceed.
 
 Using Docker, you can test the script's syntax and that it works as expected.
 
-When you build the Docker container, it runs the script.
+When you build the Docker container, it runs the script as part of the build.
 
 ```sh
+# on your computer
 docker build -t my-idrive-install-image .
+```
+
+Run the container:
+
+```sh
+# on your computer
 docker run --rm -it my-idrive-install-image
 ```
 
 Once you are inside the container, follow the instruction given from the
-`install-idrive` script during `docker build`.
+`install-idrive` script during `docker build`:
+
+```sh
+# inside the container
+account_setting.pl --auto-setup
+```
